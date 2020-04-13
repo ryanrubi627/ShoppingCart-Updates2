@@ -31,6 +31,9 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    	@role('super admin')
+                    		<a class="dropdown-item" onclick="window.location='{{ url("/superAdmin_page") }}'">Super admin page</a>
+                    	@endrole
                     	<a class="dropdown-item" onclick="window.location='{{ url("/cart_page") }}'">My Cart</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
@@ -140,7 +143,9 @@
 										Enter Quantity:<input type="number" class="form-control prc" name="item_cart_quantity2" id="item_cart_quantity2" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
 										Price:<input type="number" class="form-control prc" name="item_cart_price2" id="item_cart_price2" disabled/>
 										<h5 style="color:rgb(242,103,49);" id="item_cart_price" name="item_cart_price" hidden></h5><br>
-										<button type="button" class="btn btn-primary cart-item" id="cart-item" style="float:right">Add to Cart</button><br><br>
+										@can('can add to cart')
+											<button type="button" class="btn btn-primary cart-item" id="cart-item" style="float:right">Add to Cart</button><br><br>
+										@endcan
 								</div>
 							</form>
 						</div>

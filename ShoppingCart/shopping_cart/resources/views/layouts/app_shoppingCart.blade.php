@@ -25,6 +25,8 @@
 
 </head>
 <body>
+    @yield('super_admin')
+
     @yield('admin')
 
     @yield('cart')

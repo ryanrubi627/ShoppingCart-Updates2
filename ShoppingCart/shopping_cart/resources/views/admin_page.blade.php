@@ -31,6 +31,9 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    	@role('super admin')
+                    		<a class="dropdown-item" onclick="window.location='{{ url("/superAdmin_page") }}'">Super admin page</a>
+                    	@endrole
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
@@ -55,7 +58,9 @@
 		<div class="col-md-10">
 			<div class="card">
 				<h5 class="card-header">
-					<button type="button" class="btn btn-success" id="open_add_product_modal">Add new Item</button>
+					@can('can add item')
+						<button type="button" class="btn btn-success" id="open_add_product_modal">Add new Item</button>
+					@endcan
 				</h5>
 				<div class="card-body">
 					<table class="table table-bordered table-hover" id="myTable" style="table-layout: fixed;">
@@ -81,8 +86,13 @@
 								<td>{{ $item->price }}</td>
 								<td><img id="image_preview_container" src="/images/{{ $item->image }}"alt="preview image" style="width: 150px;"></td>
 								<td>{{ $item->created_at }}</td>
-								<td><a href="#" class="btn btn-primary edtbtn">Edit</a>
-									<a href="#" class="btn btn-primary delete_btn" onclick="window.location='{{ url("/admin_page/$item->id") }}'">Delete</a>
+								<td>
+									@can('can edit item')
+										<a href="#" class="btn btn-primary edtbtn">Edit</a>
+									@endcan
+									@can('can delete item')
+										<a href="#" class="btn btn-primary delete_btn" onclick="window.location='{{ url("/admin_page/$item->id") }}'">Delete</a>
+									@endcan
 								</td>
 							</tr>
 							@endforeach
@@ -159,6 +169,10 @@
 								<input type="text" class="form-control" name="edt_nameofitem" id="edt_nameofitem"/>
 							</div>
 							<div class="form-group">
+								<label>Description:</label>
+								<textarea class="form-control" name="edt_description" id="edt_description"></textarea>
+							</div>
+							<div class="form-group">
 								<label>Quantity:</label>
 								<input type="text" class="form-control" name="edt_quantity" id="edt_quantity" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
 							</div>
@@ -166,11 +180,7 @@
 								<label>Price</label>
 								<input type="text" class="form-control" name="edt_price" id="edt_price"/>
 							</div>
-							<div class="form-group">
-								<label>Description:</label>
-								<textarea class="form-control" name="edt_description" id="edt_description"></textarea>
-							</div>
-							<div class="form-group custom-file mt-3 mb-3"> 
+								<div class="form-group custom-file mt-3 mb-3"> 
 								<input type="file" name="edt_image" id="edt_image"/>
 							</div>
 							<button type="submit" id="edt_item" class="btn btn-primary" style="float:right">Update</button>

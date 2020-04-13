@@ -31,6 +31,9 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    	@role('super admin')
+                    		<a class="dropdown-item" onclick="window.location='{{ url("/superAdmin_page") }}'">Super admin page</a>
+                    	@endrole
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
@@ -55,7 +58,7 @@
 		<div class="col-md-10">
 			<div class="card">
 				<h5 class="card-header">
-					<button type="button" class="btn btn-success" id="open_add_product_modal" onclick="window.location='{{ url("/user_page") }}'">Go to Shop</button>
+					<button type="button" class="btn btn-success" id="open_add_product_modal" onclick="window.location='{{ url("/user_page") }}'">Back to Shop</button>
 				</h5>
 				<div class="card-body">
 					<table class="table table-bordered table-hover myTable" style="table-layout: fixed;">
@@ -141,7 +144,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12">
-					<h5 name="item_id" id="item_id" ></h5>
+					<h5 name="item_id" id="item_id" hidden></h5>
 					<div class="card">
 						<img class="card-img-top img_cart_item" alt="Bootstrap Thumbnail First" src="">
 						<div class="card-block" style="margin:20px">
@@ -152,7 +155,9 @@
 							Quantity:<input type="number" class="form-control prc" id="cart_quantity" maxlength="2" disabled/>
 							Price:<input type="number" class="form-control prc" id="item_cart_price" disabled/>
 							Total:<input type="number" class="form-control prc" id="item_cart_result" disabled/><br>
-							<button type="button" style="float:right;"class="btn btn-primary" id="buy_item">Check Out</button>
+							@can('can checkout item')
+								<button type="button" style="float:right;"class="btn btn-primary" id="buy_item">Check Out</button>
+							@endcan
 						</div>
 					</div>
 				</div>
